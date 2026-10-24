@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: northstar
+      POSTGRES_PASSWORD: northstar
+      POSTGRES_DB: northstar
+    ports: ["5432:5432"]
+    volumes:
+      - northstar-pg:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U northstar"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    profiles: ["extras"]
+    ports: ["6379:6379"]
+  mongo:
+    image: mongo:8
+    profiles: ["extras"]
+    ports: ["27017:27017"]
+  python-api:
+    profiles: ["backends"]
+    build: {context: ., dockerfile: python-fastapi/Dockerfile}
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://northstar:northstar@postgres:5432/northstar_python
+    depends_on:
+      postgres: {condition: service_healthy}
+  node-api:
+    profiles: ["backends"]
+    build: {context: ., dockerfile: node-express/Dockerfile}
+    ports: ["3000:3000"]
+    environment:
+      DATABASE_URL: postgres://northstar:northstar@postgres:5432/northstar_node
+    depends_on:
+      postgres: {condition: service_healthy}
+  go-api:
+    profiles: ["backends"]
+    build: {context: ., dockerfile: go-http/Dockerfile}
+    ports: ["8080:8080"]
+    environment:
+      DATABASE_URL: postgres://northstar:northstar@postgres:5432/northstar_go
+    depends_on:
+      postgres: {condition: service_healthy}
+  java-api:
+    profiles: ["backends"]
+    build: {context: ., dockerfile: java-spring/Dockerfile}
+    ports: ["8081:8081"]
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/northstar_java
+      DB_USER: northstar
+      DB_PASSWORD: northstar
+    depends_on:
+      postgres: {condition: service_healthy}
+  kotlin-api:
+    profiles: ["backends"]
+    build: {context: ., dockerfile: kotlin-ktor/Dockerfile}
+    ports: ["8082:8082"]
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/northstar_kotlin
+      DB_USER: northstar
+      DB_PASSWORD: northstar
+    depends_on:
+      postgres: {condition: service_healthy}
+
+volumes:
+  northstar-pg:

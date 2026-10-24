@@ -1,0 +1,11 @@
+**/.env
+**/node_modules/
+**/dist/
+**/build/
+**/target/
+**/.gradle/
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/*.db
+**/*.sqlite

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "S&P 500",
+    "value": "5,842.47",
+    "change": "+0.42%",
+    "positive": true
+  },
+  {
+    "name": "NASDAQ",
+    "value": "18,421.36",
+    "change": "+0.68%",
+    "positive": true
+  },
+  {
+    "name": "DOW",
+    "value": "43,275.91",
+    "change": "-0.13%",
+    "positive": false
+  }
+]

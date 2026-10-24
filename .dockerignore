@@ -1,0 +1,10 @@
+**/node_modules
+**/.venv
+**/.pytest_cache
+**/__pycache__
+**/*.db
+**/*.mv.db
+**/build
+**/target
+**/.gradle
+.git
