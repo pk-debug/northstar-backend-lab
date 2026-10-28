@@ -1,0 +1,20 @@
+name: Paper trading API
+on:
+  push:
+    paths: ['paper-trading-api/**', '.github/workflows/paper-trading-api.yml']
+  pull_request:
+    paths: ['paper-trading-api/**', '.github/workflows/paper-trading-api.yml']
+permissions:
+  contents: read
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r paper-trading-api/requirements.lock
+      - run: PYTHONPATH=paper-trading-api NORTHSTAR_DB=/tmp/bootstrap.sqlite pytest -q paper-trading-api/tests
+      - run: pip install pip-audit==2.10.1
+      - run: pip-audit --vulnerability-service pypi --disable-pip --no-deps -r paper-trading-api/requirements.lock
