@@ -9,3 +9,7 @@
 **/.venv/
 **/*.db
 **/*.sqlite
+
+# Authenticated paper API local databases and interpreter state
+**/*.sqlite*
+**/*.pyc

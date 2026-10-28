@@ -1,0 +1,20 @@
+[
+  {
+    "name": "NIFTY 50",
+    "value": "24,854.05",
+    "change": "+0.62%",
+    "isPositive": true
+  },
+  {
+    "name": "SENSEX",
+    "value": "81,330.56",
+    "change": "+0.48%",
+    "isPositive": true
+  },
+  {
+    "name": "BANK NIFTY",
+    "value": "56,214.30",
+    "change": "-0.21%",
+    "isPositive": false
+  }
+]
